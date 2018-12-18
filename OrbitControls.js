@@ -87,6 +87,8 @@ THREE.OrbitControls = function ( object, domElement ) {
 	// public methods
 	//
 
+	this.onChangeFn = function () {}
+
 	this.getPolarAngle = function () {
 
 		return spherical.phi;
@@ -211,6 +213,8 @@ THREE.OrbitControls = function ( object, domElement ) {
 				lastPosition.copy( scope.object.position );
 				lastQuaternion.copy( scope.object.quaternion );
 				zoomChanged = false;
+
+				this.onChangeFn(scope.object)
 
 				return true;
 
@@ -927,6 +931,15 @@ THREE.OrbitControls.prototype = Object.create( THREE.EventDispatcher.prototype )
 THREE.OrbitControls.prototype.constructor = THREE.OrbitControls;
 
 Object.defineProperties( THREE.OrbitControls.prototype, {
+
+	setOncHange: {
+
+		set: function (fn) {
+			this.onChangeFn = fn 
+			return this
+		}
+
+	}
 
 	center: {
 
