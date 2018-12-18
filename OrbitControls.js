@@ -14,7 +14,7 @@
 //    Zoom - middle mouse, or mousewheel / touch: two-finger spread or squish
 //    Pan - right mouse, or left mouse + ctrl/meta/shiftKey, or arrow keys / touch: two-finger move
 
-THREE.OrbitControls = function ( object, domElement ) {
+THREE.OrbitControls = function ( object, domElement, changeFn ) {
 
 	this.object = object;
 
@@ -86,8 +86,6 @@ THREE.OrbitControls = function ( object, domElement ) {
 	//
 	// public methods
 	//
-
-	this.onChangeFn = function () {}
 
 	this.getPolarAngle = function () {
 
@@ -214,7 +212,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 				lastQuaternion.copy( scope.object.quaternion );
 				zoomChanged = false;
 
-				this.onChangeFn(scope.object)
+				if (changeFn) changeFn()
 
 				return true;
 
@@ -931,15 +929,6 @@ THREE.OrbitControls.prototype = Object.create( THREE.EventDispatcher.prototype )
 THREE.OrbitControls.prototype.constructor = THREE.OrbitControls;
 
 Object.defineProperties( THREE.OrbitControls.prototype, {
-
-	setOncHange: {
-
-		set: function (fn) {
-			this.onChangeFn = fn 
-			return this
-		}
-
-	}
 
 	center: {
 
